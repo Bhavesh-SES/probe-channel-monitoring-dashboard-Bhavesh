@@ -2,508 +2,521 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <title>MK Linear Channel Probe Dashboard</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    :root {
-      --bg: #f2f2f2;
-      --panel: #fff;
-      --accent: #2c3e50;
-      --muted: #666;
-    }
+    <meta charset="utf-8" />
+    <title>MK Linear Channel Probe Dashboard</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+        :root {
+            --bg: #f2f2f2;
+            --panel: #fff;
+            --accent: #2c3e50;
+            --muted: #666;
+        }
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
-      color: #111;
-    }
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: #111;
+        }
 
-    .topbar {
-      background: var(--accent);
-      color: #fff;
-      padding: 10px 14px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+        .topbar {
+            background: var(--accent);
+            color: #fff;
+            padding: 10px 14px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
-    .topbar h1 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 600;
-    }
+        .topbar h1 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
 
-    .spacer {
-      flex: 1;
-    }
+        .spacer {
+            flex: 1;
+        }
 
-    .controls button {
-      margin-left: 8px;
-      padding: 6px 10px;
-      border-radius: 4px;
-      border: none;
-      cursor: pointer;
-      background: #fff;
-      color: var(--accent);
-    }
+        .controls button {
+            margin-left: 8px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            background: #fff;
+            color: var(--accent);
+        }
 
-    .layout {
-      display: flex;
-      height: calc(100vh - 52px);
-      gap: 12px;
-      padding: 12px;
-      box-sizing: border-box;
-    }
+        .layout {
+            display: flex;
+            height: calc(100vh - 52px);
+            gap: 12px;
+            padding: 12px;
+            box-sizing: border-box;
+        }
 
-    .panel {
-      flex: 1;
-      background: var(--panel);
-      border-radius: 8px;
-      padding: 14px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
-      min-width: 320px;
-      overflow: auto;
-    }
+        .panel {
+            flex: 1;
+            background: var(--panel);
+            border-radius: 8px;
+            padding: 14px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+            min-width: 320px;
+            overflow: auto;
+        }
 
-    .panel h2 {
-      margin: 0 0 12px;
-      color: var(--accent);
-      text-align: center;
-    }
+        .panel h2 {
+            margin: 0 0 12px;
+            color: var(--accent);
+            text-align: center;
+        }
 
-    .toolbar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-      align-items: center;
-    }
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+            align-items: center;
+        }
 
-    input[type="text"],
-    select {
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      min-width: 200px;
-    }
+        input[type="text"],
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            min-width: 200px;
+        }
 
-    .iframe-card {
-      margin-bottom: 22px;
-      border-radius: 6px;
-      padding: 10px;
-      background: #fafafa;
-      border: 1px solid #eee;
-    }
+        .iframe-card {
+            margin-bottom: 22px;
+            border-radius: 6px;
+            padding: 10px;
+            background: #fafafa;
+            border: 1px solid #eee;
+        }
 
-    .iframe-title {
-      text-align: center;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
+        .iframe-title {
+            text-align: center;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
 
-    iframe {
-      width: 100%;
-      height: 340px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      display: block;
-    }
+        iframe {
+            width: 100%;
+            height: 340px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: block;
+        }
 
-    .url-line {
-      font-size: 12px;
-      color: #666;
-      margin-top: 6px;
-      word-break: break-all;
-      text-align: center;
-    }
+        .url-line {
+            font-size: 12px;
+            color: #666;
+            margin-top: 6px;
+            word-break: break-all;
+            text-align: center;
+        }
 
-    .divider {
-      width: 4px;
-      background: linear-gradient(to bottom, #e6e6e6, #ddd);
-      border-radius: 2px;
-    }
+        .divider {
+            width: 4px;
+            background: linear-gradient(to bottom, #e6e6e6, #ddd);
+            border-radius: 2px;
+        }
 
-    /* dark mode */
-    body.dark {
-      background: #0f1720;
-      color: #ddd;
-    }
+        /* dark mode */
+        body.dark {
+            background: #0f1720;
+            color: #ddd;
+        }
 
-    body.dark .panel {
-      background: #0b1220;
-      box-shadow: none;
-      border: 1px solid #12202b;
-    }
+        body.dark .panel {
+            background: #0b1220;
+            box-shadow: none;
+            border: 1px solid #12202b;
+        }
 
-    body.dark .iframe-card {
-      background: #07101a;
-      border-color: #12202b;
-    }
+        body.dark .iframe-card {
+            background: #07101a;
+            border-color: #12202b;
+        }
 
-    body.dark .iframe-title {
-      color: #9cc0ff;
-    }
+        body.dark .iframe-title {
+            color: #9cc0ff;
+        }
 
-    body.dark .url-line {
-      color: #9aaac0;
-    }
+        body.dark .url-line {
+            color: #9aaac0;
+        }
 
-    @media (max-width:900px) {
-      .layout {
-        flex-direction: column;
-        height: auto;
-      }
+        @media (max-width:900px) {
+            .layout {
+                flex-direction: column;
+                height: auto;
+            }
 
-      .divider {
-        display: none;
-      }
+            .divider {
+                display: none;
+            }
 
-      iframe {
-        height: 240px;
-      }
-    }
-  </style>
+            iframe {
+                height: 240px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <div class="topbar">
-    <h1>MK Linear Channel Probe Dashboard</h1>
+    <div class="topbar">
+        <h1>MK Linear Channel Probe Dashboard</h1>
 
-    <div class="spacer"></div>
+        <div class="spacer"></div>
 
-    <div class="controls" style="display:flex; align-items:center;">
-      <button id="btnToggleUrls">Show URLs: OFF</button>
-      <button id="btnToggleTheme">Light Mode</button>
-    </div>
-  </div>
-
-  <div class="layout">
-    <!-- LEFT: INX side -->
-    <div class="panel" id="leftPanel">
-      <h2>INX Probe Panel - Select Channel to show INX & CHE Feed </h2>
-      <div class="toolbar">
-        <input id="leftSearch" type="text" placeholder="Search channels (type & press Enter to select)" />
-        <select id="leftDropdown">
-          <option value="">-- Select channel --</option>
-        </select>
-      </div>
-      <div id="leftContent"></div>
+        <div class="controls" style="display:flex; align-items:center;">
+            <button id="btnToggleUrls">Show URLs: OFF</button>
+            <button id="btnToggleTheme">Light Mode</button>
+        </div>
     </div>
 
-    <div class="divider" aria-hidden="true"></div>
+    <div class="layout">
+        <!-- LEFT: INX side -->
+        <div class="panel" id="leftPanel">
+            <h2>INX Probe Panel - Select Channel to show INX & CHE Feed </h2>
+            <div class="toolbar">
+                <input id="leftSearch" type="text" placeholder="Search channels (type & press Enter to select)" />
+                <select id="leftDropdown">
+                    <option value="">-- Select channel --</option>
+                </select>
+            </div>
+            <div id="leftContent"></div>
+        </div>
 
-    <!-- RIGHT: CHE side -->
-    <div class="panel" id="rightPanel">
-      <h2>CHE Probe Panel - Select Channel to show INX & CHE Feed </h2>
-      <div class="toolbar">
-        <input id="rightSearch" type="text" placeholder="Search channels (type & press Enter to select)" />
-        <select id="rightDropdown">
-          <option value="">-- Select channel --</option>
-        </select>
-      </div>
-      <div id="rightContent"></div>
+        <div class="divider" aria-hidden="true"></div>
+
+        <!-- RIGHT: CHE side -->
+        <div class="panel" id="rightPanel">
+            <h2>CHE Probe Panel - Select Channel to show INX & CHE Feed </h2>
+            <div class="toolbar">
+                <input id="rightSearch" type="text" placeholder="Search channels (type & press Enter to select)" />
+                <select id="rightDropdown">
+                    <option value="">-- Select channel --</option>
+                </select>
+            </div>
+            <div id="rightContent"></div>
+        </div>
     </div>
-  </div>
 
-  <script>
-    /*
-      Behavior implemented:
-      - Two fixed lists (INX_PROBE_LIST and CHE_PROBE_LIST) are hardcoded below.
-      - Left dropdown shows a unique (deduped) union of those lists (so each channel appears once).
-      - Right dropdown shows unique CHE list (deduped).
-      - When a channel is selected from either dropdown (or when user types search & presses Enter),
-        the code constructs two dynamic probe URLs:
-          INX_Master_URL: http://10.30.20.210/probe/core/mdiChannelDoc?Channelname=<INX_prefix + remainder>&?&detached=1
-          CHE_Master_URL: http://10.32.20.210/probe/core/mdiChannelDoc?Channelname=<CHE_prefix + remainder>&?&detached=1
-        where remainder is everything after the first underscore in the selected channel (so CH.. suffix and middle part preserved).
-      - Both resulting probes are shown in the same panel (INX + CHE iframes).
-      - Initial load shows NOTHING until user selects or searches & presses Enter.
-      - Show URLs toggle displays the generated URLs under each iframe.
-      - Light/Dark mode toggle available.
-    */
+    <script>
+        /*
+          Behavior implemented:
+          - Two fixed lists (INX_PROBE_LIST and CHE_PROBE_LIST) are hardcoded below.
+          - Left dropdown shows a unique (deduped) union of those lists (so each channel appears once).
+          - Right dropdown shows unique CHE list (deduped).
+          - When a channel is selected from either dropdown (or when user types search & presses Enter),
+            the code constructs two dynamic probe URLs:
+              INX_Master_URL: http://10.30.20.210/probe/core/mdiChannelDoc?Channelname=<INX_prefix + remainder>&?&detached=1
+              CHE_Master_URL: http://10.32.20.210/probe/core/mdiChannelDoc?Channelname=<CHE_prefix + remainder>&?&detached=1
+            where remainder is everything after the first underscore in the selected channel (so CH.. suffix and middle part preserved).
+          - Both resulting probes are shown in the same panel (INX + CHE iframes).
+          - Initial load shows NOTHING until user selects or searches & presses Enter.
+          - Show URLs toggle displays the generated URLs under each iframe.
+          - Light/Dark mode toggle available.
+        */
 
-    // ---------- CONFIG: lists provided by user ----------
-    const INX_PROBE_LIST = [
-      "INX_DAZN-LIN-H_CH01-F1", "INX_DAZN-LIN-H_CH02-DAZN01DACH", "INX_DAZN-LIN-H_CH03-DAZN02DACH", "INX_DAZN-LIN-H_CH04-SDF",
-      "INX_DAZN-LIN-H_CH05-NFL", "INX_DAZN-LIN-H_CH06-ZONA-DAZN", "INX_DAZN-LIN-H_CH07-MILAN-TV", "INX_DAZN-LIN-H_CH08-MLB",
-      "INX_DAZN-LIN-H_CH09-ES-DE1", "INX_DAZN-LIN-H_CH10-ES-DE2", "INX_DAZN-LIN-H_CH11-ES-IT1", "INX_DAZN-LIN-H_CH12-ES-IT2",
-      "INX_DAZN-LIN-H_CH13-ES-SP1", "INX_DAZN-LIN-H_CH14-ES-SP2", "INX_DAZN-LIN-H_CH15-InterTV", "INX_DAZN-LIN-H_CH16-NBA-TV",
-      "INX_DAZN-LIN-H_CH17-RedBull", "INX_DAZN-LIN-H_CH18-DAZN01SPAIN", "INX_DAZN-LIN-H_CH19-DAZN02SPAIN", "INX_DAZN-LIN-H_CH20-RallyTV",
-      "INX_DAZN-LIN-H_CH21-LA-LIGA-TV-HYP", "INX_DAZN-LIN-H_CH22-Ligue-1", "INX_DAZN-LIN-H_CH23-RadioTV", "INX_DAZN-LIN-H_CH24-LaLigaTV",
-      "INX_DAZN-LIN-H_CH25-Unbeaten", "INX_DAZN-LIN-H_CH26-DAZN-UK1", "INX_DAZN-LIN-H_CH27-ELEVEN1-NL", "INX_DAZN-LIN-H_CH28-ELEVEN1-FR",
-      "INX_DAZN-LIN-H_CH29-ELEVEN-PROL1-NL", "INX_DAZN-LIN-H_CH30-ELEVEN-PROL1-FR", "INX_DAZN-LIN-H_CH31-PLAYSPORTS1", "INX_DAZN-LIN-H_CH32-PLAYSPORTS2",
-      "INX_DAZN-LIN-H_CH33-PLAYSPORTS3", "INX_DAZN-LIN-H_CH34-ELEVEN01PT", "INX_DAZN-LIN-H_CH35-ELEVEN02PT", "INX_DAZN-LIN-H_CH36-ELEVEN03PT",
-      "INX_DAZN-LIN-H_CH37-ELEVEN04PT", "INX_DAZN-LIN-H_CH38-ELEVEN05PT", "INX_DAZN-LIN-H_CH39-ELEVEN06PT", "INX_DAZN-LIN-H_CH40_Nosso-Futebol",
-      // user also included CHE entries in this big left array earlier; union will handle duplicates
-      "CHE_DAZN-LIN-H_CH01-F1", "CHE_DAZN-LIN-H_CH02-DAZN01DACH", "CHE_DAZN-LIN-H_CH03-DAZN02DACH", "CHE_DAZN-LIN-H_CH04-SDF",
-      "CHE_DAZN-LIN-H_CH05-NFL", "CHE_DAZN-LIN-H_CH06-ZONA-DAZN", "CHE_DAZN-LIN-H_CH07-MILAN-TV", "CHE_DAZN-LIN-H_CH08-MLB",
-      "CHE_DAZN-LIN-H_CH09-ES-DE1", "CHE_DAZN-LIN-H_CH10-ES-DE2", "CHE_DAZN-LIN-H_CH11-ES-IT1", "CHE_DAZN-LIN-H_CH12-ES-IT2",
-      "CHE_DAZN-LIN-H_CH13-ES-SP1", "CHE_DAZN-LIN-H_CH14-ES-SP2", "CHE_DAZN-LIN-H_CH15-InterTV", "CHE_DAZN-LIN-H_CH16-NBA-TV",
-      "CHE_DAZN-LIN-H_CH17-RedBull", "CHE_DAZN-LIN-H_CH18-DAZN01SPAIN", "CHE_DAZN-LIN-H_CH19-DAZN02SPAIN", "CHE_DAZN-LIN-H_CH20-RallyTV",
-      "CHE_DAZN-LIN-H_CH21-LA-LIGA-TV-HYP", "CHE_DAZN-LIN-H_CH22-Ligue-1", "CHE_DAZN-LIN-H_CH23-RadioTV", "CHE_DAZN-LIN-H_CH24-LaLigaTV",
-      "CHE_DAZN-LIN-H_CH25-Unbeaten", "CHE_DAZN-LIN-H_CH26-DAZN-UK1", "CHE_DAZN-LIN-H_CH27-ELEVEN1-NL", "CHE_DAZN-LIN-H_CH28-ELEVEN1-FR",
-      "CHE_DAZN-LIN-H_CH29-ELEVEN-PROL1-NL", "CHE_DAZN-LIN-H_CH30-ELEVEN-PROL1-FR", "CHE_DAZN-LIN-H_CH31-PLAYSPORTS1", "CHE_DAZN-LIN-H_CH32-PLAYSPORTS2",
-      "CHE_DAZN-LIN-H_CH33-PLAYSPORTS3", "CHE_DAZN-LIN-H_CH34-ELEVEN01PT", "CHE_DAZN-LIN-H_CH35-ELEVEN02PT", "CHE_DAZN-LIN-H_CH36-ELEVEN03PT",
-      "CHE_DAZN-LIN-H_CH37-ELEVEN04PT", "CHE_DAZN-LIN-H_CH38-ELEVEN05PT", "CHE_DAZN-LIN-H_CH39-ELEVEN06PT", "CHE_DAZN-LIN-H_CH40_Nosso-Futebol"
-    ];
+        // ---------- CONFIG: lists provided by user ----------
+        const INX_PROBE_LIST = [
+            "INX_DAZN-LIN-H_CH01-F1", "INX_DAZN-LIN-H_CH02-DAZN01DACH", "INX_DAZN-LIN-H_CH03-DAZN02DACH", "INX_DAZN-LIN-H_CH04-SDF",
+            "INX_DAZN-LIN-H_CH05-NFL", "INX_DAZN-LIN-H_CH06-ZONA-DAZN", "INX_DAZN-LIN-H_CH07-MILAN-TV", "INX_DAZN-LIN-H_CH08-MLB",
+            "INX_DAZN-LIN-H_CH09-ES-DE1", "INX_DAZN-LIN-H_CH10-ES-DE2", "INX_DAZN-LIN-H_CH11-ES-IT1", "INX_DAZN-LIN-H_CH12-ES-IT2",
+            "INX_DAZN-LIN-H_CH13-ES-SP1", "INX_DAZN-LIN-H_CH14-ES-SP2", "INX_DAZN-LIN-H_CH15-InterTV", "INX_DAZN-LIN-H_CH16-NBA-TV",
+            "INX_DAZN-LIN-H_CH17-RedBull", "INX_DAZN-LIN-H_CH18-DAZN01SPAIN", "INX_DAZN-LIN-H_CH19-DAZN02SPAIN", "INX_DAZN-LIN-H_CH20-RallyTV",
+            "INX_DAZN-LIN-H_CH21-LA-LIGA-TV-HYP", "INX_DAZN-LIN-H_CH22-Ligue-1", "INX_DAZN-LIN-H_CH23-RadioTV", "INX_DAZN-LIN-H_CH24-LaLigaTV",
+            "INX_DAZN-LIN-H_CH25-Unbeaten", "INX_DAZN-LIN-H_CH26-DAZN-UK1", "INX_DAZN-LIN-H_CH27-ELEVEN1-NL", "INX_DAZN-LIN-H_CH28-ELEVEN1-FR",
+            "INX_DAZN-LIN-H_CH29-ELEVEN-PROL1-NL", "INX_DAZN-LIN-H_CH30-ELEVEN-PROL1-FR", "INX_DAZN-LIN-H_CH31-PLAYSPORTS1", "INX_DAZN-LIN-H_CH32-PLAYSPORTS2",
+            "INX_DAZN-LIN-H_CH33-PLAYSPORTS3", "INX_DAZN-LIN-H_CH34-ELEVEN01PT", "INX_DAZN-LIN-H_CH35-ELEVEN02PT", "INX_DAZN-LIN-H_CH36-ELEVEN03PT",
+            "INX_DAZN-LIN-H_CH37-ELEVEN04PT", "INX_DAZN-LIN-H_CH38-ELEVEN05PT", "INX_DAZN-LIN-H_CH39-ELEVEN06PT", "INX_DAZN-LIN-H_CH40_Nosso-Futebol",
+            // user also included CHE entries in this big left array earlier; union will handle duplicates
+            "CHE_DAZN-LIN-H_CH01-F1", "CHE_DAZN-LIN-H_CH02-DAZN01DACH", "CHE_DAZN-LIN-H_CH03-DAZN02DACH", "CHE_DAZN-LIN-H_CH04-SDF",
+            "CHE_DAZN-LIN-H_CH05-NFL", "CHE_DAZN-LIN-H_CH06-ZONA-DAZN", "CHE_DAZN-LIN-H_CH07-MILAN-TV", "CHE_DAZN-LIN-H_CH08-MLB",
+            "CHE_DAZN-LIN-H_CH09-ES-DE1", "CHE_DAZN-LIN-H_CH10-ES-DE2", "CHE_DAZN-LIN-H_CH11-ES-IT1", "CHE_DAZN-LIN-H_CH12-ES-IT2",
+            "CHE_DAZN-LIN-H_CH13-ES-SP1", "CHE_DAZN-LIN-H_CH14-ES-SP2", "CHE_DAZN-LIN-H_CH15-InterTV", "CHE_DAZN-LIN-H_CH16-NBA-TV",
+            "CHE_DAZN-LIN-H_CH17-RedBull", "CHE_DAZN-LIN-H_CH18-DAZN01SPAIN", "CHE_DAZN-LIN-H_CH19-DAZN02SPAIN", "CHE_DAZN-LIN-H_CH20-RallyTV",
+            "CHE_DAZN-LIN-H_CH21-LA-LIGA-TV-HYP", "CHE_DAZN-LIN-H_CH22-Ligue-1", "CHE_DAZN-LIN-H_CH23-RadioTV", "CHE_DAZN-LIN-H_CH24-LaLigaTV",
+            "CHE_DAZN-LIN-H_CH25-Unbeaten", "CHE_DAZN-LIN-H_CH26-DAZN-UK1", "CHE_DAZN-LIN-H_CH27-ELEVEN1-NL", "CHE_DAZN-LIN-H_CH28-ELEVEN1-FR",
+            "CHE_DAZN-LIN-H_CH29-ELEVEN-PROL1-NL", "CHE_DAZN-LIN-H_CH30-ELEVEN-PROL1-FR", "CHE_DAZN-LIN-H_CH31-PLAYSPORTS1", "CHE_DAZN-LIN-H_CH32-PLAYSPORTS2",
+            "CHE_DAZN-LIN-H_CH33-PLAYSPORTS3", "CHE_DAZN-LIN-H_CH34-ELEVEN01PT", "CHE_DAZN-LIN-H_CH35-ELEVEN02PT", "CHE_DAZN-LIN-H_CH36-ELEVEN03PT",
+            "CHE_DAZN-LIN-H_CH37-ELEVEN04PT", "CHE_DAZN-LIN-H_CH38-ELEVEN05PT", "CHE_DAZN-LIN-H_CH39-ELEVEN06PT", "CHE_DAZN-LIN-H_CH40_Nosso-Futebol"
+        ];
 
-    const CHE_PROBE_LIST = [
-      "CHE_DAZN-LIN-H_CH01-F1", "CHE_DAZN-LIN-H_CH02-DAZN01DACH", "CHE_DAZN-LIN-H_CH03-DAZN02DACH", "CHE_DAZN-LIN-H_CH04-SDF",
-      "CHE_DAZN-LIN-H_CH05-NFL", "CHE_DAZN-LIN-H_CH06-ZONA-DAZN", "CHE_DAZN-LIN-H_CH07-MILAN-TV", "CHE_DAZN-LIN-H_CH08-MLB",
-      "CHE_DAZN-LIN-H_CH09-ES-DE1", "CHE_DAZN-LIN-H_CH10-ES-DE2", "CHE_DAZN-LIN-H_CH11-ES-IT1", "CHE_DAZN-LIN-H_CH12-ES-IT2",
-      "CHE_DAZN-LIN-H_CH13-ES-SP1", "CHE_DAZN-LIN-H_CH14-ES-SP2", "CHE_DAZN-LIN-H_CH15-InterTV", "CHE_DAZN-LIN-H_CH16-NBA-TV",
-      "CHE_DAZN-LIN-H_CH17-RedBull", "CHE_DAZN-LIN-H_CH18-DAZN01SPAIN", "CHE_DAZN-LIN-H_CH19-DAZN02SPAIN", "CHE_DAZN-LIN-H_CH20-RallyTV",
-      "CHE_DAZN-LIN-H_CH21-LA-LIGA-TV-HYP", "CHE_DAZN-LIN-H_CH22-Ligue-1", "CHE_DAZN-LIN-H_CH23-RadioTV", "CHE_DAZN-LIN-H_CH24-LaLigaTV",
-      "CHE_DAZN-LIN-H_CH25-Unbeaten", "CHE_DAZN-LIN-H_CH26-DAZN-UK1", "CHE_DAZN-LIN-H_CH27-ELEVEN1-NL", "CHE_DAZN-LIN-H_CH28-ELEVEN1-FR",
-      "CHE_DAZN-LIN-H_CH29-ELEVEN-PROL1-NL", "CHE_DAZN-LIN-H_CH30-ELEVEN-PROL1-FR", "CHE_DAZN-LIN-H_CH31-PLAYSPORTS1", "CHE_DAZN-LIN-H_CH32-PLAYSPORTS2",
-      "CHE_DAZN-LIN-H_CH33-PLAYSPORTS3", "CHE_DAZN-LIN-H_CH34-ELEVEN01PT", "CHE_DAZN-LIN-H_CH35-ELEVEN02PT", "CHE_DAZN-LIN-H_CH36-ELEVEN03PT",
-      "CHE_DAZN-LIN-H_CH37-ELEVEN04PT", "CHE_DAZN-LIN-H_CH38-ELEVEN05PT", "CHE_DAZN-LIN-H_CH39-ELEVEN06PT", "CHE_DAZN-LIN-H_CH40_Nosso-Futebol",
-      // include INX mirrors as user requested combined list (keeping right dropdown unique later)
-      "INX_DAZN-LIN-H_CH01-F1", "INX_DAZN-LIN-H_CH02-DAZN01DACH", "INX_DAZN-LIN-H_CH03-DAZN02DACH", "INX_DAZN-LIN-H_CH04-SDF",
-      "INX_DAZN-LIN-H_CH05-NFL", "INX_DAZN-LIN-H_CH06-ZONA-DAZN", "INX_DAZN-LIN-H_CH07-MILAN-TV", "INX_DAZN-LIN-H_CH08-MLB",
-      "INX_DAZN-LIN-H_CH09-ES-DE1", "INX_DAZN-LIN-H_CH10-ES-DE2", "INX_DAZN-LIN-H_CH11-ES-IT1", "INX_DAZN-LIN-H_CH12-ES-IT2"
-    ];
+        const CHE_PROBE_LIST = [
+            "CHE_DAZN-LIN-H_CH01-F1", "CHE_DAZN-LIN-H_CH02-DAZN01DACH", "CHE_DAZN-LIN-H_CH03-DAZN02DACH", "CHE_DAZN-LIN-H_CH04-SDF",
+            "CHE_DAZN-LIN-H_CH05-NFL", "CHE_DAZN-LIN-H_CH06-ZONA-DAZN", "CHE_DAZN-LIN-H_CH07-MILAN-TV", "CHE_DAZN-LIN-H_CH08-MLB",
+            "CHE_DAZN-LIN-H_CH09-ES-DE1", "CHE_DAZN-LIN-H_CH10-ES-DE2", "CHE_DAZN-LIN-H_CH11-ES-IT1", "CHE_DAZN-LIN-H_CH12-ES-IT2",
+            "CHE_DAZN-LIN-H_CH13-ES-SP1", "CHE_DAZN-LIN-H_CH14-ES-SP2", "CHE_DAZN-LIN-H_CH15-InterTV", "CHE_DAZN-LIN-H_CH16-NBA-TV",
+            "CHE_DAZN-LIN-H_CH17-RedBull", "CHE_DAZN-LIN-H_CH18-DAZN01SPAIN", "CHE_DAZN-LIN-H_CH19-DAZN02SPAIN", "CHE_DAZN-LIN-H_CH20-RallyTV",
+            "CHE_DAZN-LIN-H_CH21-LA-LIGA-TV-HYP", "CHE_DAZN-LIN-H_CH22-Ligue-1", "CHE_DAZN-LIN-H_CH23-RadioTV", "CHE_DAZN-LIN-H_CH24-LaLigaTV",
+            "CHE_DAZN-LIN-H_CH25-Unbeaten", "CHE_DAZN-LIN-H_CH26-DAZN-UK1", "CHE_DAZN-LIN-H_CH27-ELEVEN1-NL", "CHE_DAZN-LIN-H_CH28-ELEVEN1-FR",
+            "CHE_DAZN-LIN-H_CH29-ELEVEN-PROL1-NL", "CHE_DAZN-LIN-H_CH30-ELEVEN-PROL1-FR", "CHE_DAZN-LIN-H_CH31-PLAYSPORTS1", "CHE_DAZN-LIN-H_CH32-PLAYSPORTS2",
+            "CHE_DAZN-LIN-H_CH33-PLAYSPORTS3", "CHE_DAZN-LIN-H_CH34-ELEVEN01PT", "CHE_DAZN-LIN-H_CH35-ELEVEN02PT", "CHE_DAZN-LIN-H_CH36-ELEVEN03PT",
+            "CHE_DAZN-LIN-H_CH37-ELEVEN04PT", "CHE_DAZN-LIN-H_CH38-ELEVEN05PT", "CHE_DAZN-LIN-H_CH39-ELEVEN06PT", "CHE_DAZN-LIN-H_CH40_Nosso-Futebol",
+            // include INX mirrors as user requested combined list (keeping right dropdown unique later)
+            "INX_DAZN-LIN-H_CH01-F1", "INX_DAZN-LIN-H_CH02-DAZN01DACH", "INX_DAZN-LIN-H_CH03-DAZN02DACH", "INX_DAZN-LIN-H_CH04-SDF",
+            "INX_DAZN-LIN-H_CH05-NFL", "INX_DAZN-LIN-H_CH06-ZONA-DAZN", "INX_DAZN-LIN-H_CH07-MILAN-TV", "INX_DAZN-LIN-H_CH08-MLB",
+            "INX_DAZN-LIN-H_CH09-ES-DE1", "INX_DAZN-LIN-H_CH10-ES-DE2", "INX_DAZN-LIN-H_CH11-ES-IT1", "INX_DAZN-LIN-H_CH12-ES-IT2"
+        ];
 
-    // ---------- master URL templates ----------
-    const INX_MASTER_IP = '10.30.20.210';
-    const CHE_MASTER_IP = '10.32.20.210';
-    function buildInxUrl(channelName) {
-      return `http://${INX_MASTER_IP}/probe/core/mdiChannelDoc?Channelname=${encodeURIComponent(channelName)}&?&detached=1`;
-    }
-    function buildCheUrl(channelName) {
-      return `http://${CHE_MASTER_IP}/probe/core/mdiChannelDoc?Channelname=${encodeURIComponent(channelName)}&?&detached=1`;
-    }
-
-    // ---------- utility ----------
-    function uniqueArray(arr) {
-      return Array.from(new Set(arr));
-    }
-    function buildOption(text, value) {
-      const o = document.createElement('option');
-      o.value = value;
-      o.textContent = text;
-      return o;
-    }
-
-    // returns remainder after first underscore: for "CHE_XYZ_CH01-F1" => "XYZ_CH01-F1"
-    function remainderAfterPrefix(name) {
-      if (!name) return '';
-      const idx = name.indexOf('_');
-      if (idx === -1) return name; // no underscore
-      return name.substring(idx + 1);
-    }
-
-    // produce both variants (INX_ + remainder, CHE_ + remainder)
-    function produceBothVariants(selected) {
-      const rem = remainderAfterPrefix(selected);
-      const inx = 'INX_' + rem;
-      const che = 'CHE_' + rem;
-      return { inx, che };
-    }
-
-    // ---------- application state ----------
-    let leftList = [];   // unique list shown in left dropdown
-    let rightList = [];  // unique list for right dropdown
-    let showUrls = false;
-    let lightMode = false;
-
-    // ---------- DOM references ----------
-    const leftDropdown = document.getElementById('leftDropdown');
-    const rightDropdown = document.getElementById('rightDropdown');
-    const leftSearch = document.getElementById('leftSearch');
-    const rightSearch = document.getElementById('rightSearch');
-    const leftContent = document.getElementById('leftContent');
-    const rightContent = document.getElementById('rightContent');
-    const btnToggleUrls = document.getElementById('btnToggleUrls');
-    const btnToggleTheme = document.getElementById('btnToggleTheme');
-
-    // ---------- setup lists (dedupe) ----------
-    function setupLists() {
-      // Left: only INX_* channels
-      leftList = uniqueArray(
-        INX_PROBE_LIST.filter(ch => ch.startsWith("INX_"))
-      );
-
-      // Right: only CHE_* channels
-      rightList = uniqueArray(
-        CHE_PROBE_LIST.filter(ch => ch.startsWith("CHE_"))
-      );
-
-      populateDropdowns();
-    }
-
-
-    // ---------- populate dropdowns ----------
-    function populateDropdowns() {
-      leftDropdown.innerHTML = '';
-      leftDropdown.appendChild(buildOption('-- Select channel --', ''));
-      leftList.forEach(ch => leftDropdown.appendChild(buildOption(ch, ch)));
-
-      rightDropdown.innerHTML = '';
-      rightDropdown.appendChild(buildOption('-- Select channel --', ''));
-      rightList.forEach(ch => rightDropdown.appendChild(buildOption(ch, ch)));
-    }
-
-    // ---------- render functions ----------
-    function clearContainer(container) { container.innerHTML = ''; }
-
-    // REPLACE the existing renderLeftForSelection(...) function with this:
-    function renderLeftForSelection(selected) {
-      clearContainer(leftContent);
-      if (!selected) return; // show nothing until user selects
-
-      // produce both variants (INX_..., CHE_...)
-      const { inx, che } = produceBothVariants(selected);
-
-      // BOTH frames on the LEFT must use the INX master IP
-      const inxUrl = buildInxUrl(inx);                 // http://10.30.20.210/...?Channelname=INX_...
-      const cheUrl = `http://${INX_MASTER_IP}/probe/core/mdiChannelDoc?Channelname=${encodeURIComponent(che)}&?&detached=1`; // NOTE: uses INX IP
-
-      // INX card
-      const cardInx = document.createElement('div'); cardInx.className = 'iframe-card';
-      const titleInx = document.createElement('div'); titleInx.className = 'iframe-title'; titleInx.textContent = inx;
-      cardInx.appendChild(titleInx);
-      const iframeInx = document.createElement('iframe'); iframeInx.src = inxUrl;
-      cardInx.appendChild(iframeInx);
-      if (showUrls) {
-        const u = document.createElement('div'); u.className = 'url-line'; u.textContent = inxUrl;
-        cardInx.appendChild(u);
-      }
-      leftContent.appendChild(cardInx);
-
-      // CHE card (served from INX IP)
-      const cardChe = document.createElement('div'); cardChe.className = 'iframe-card';
-      const titleChe = document.createElement('div'); titleChe.className = 'iframe-title'; titleChe.textContent = che;
-      cardChe.appendChild(titleChe);
-      const iframeChe = document.createElement('iframe'); iframeChe.src = cheUrl;
-      cardChe.appendChild(iframeChe);
-      if (showUrls) {
-        const u2 = document.createElement('div'); u2.className = 'url-line'; u2.textContent = cheUrl;
-        cardChe.appendChild(u2);
-      }
-      leftContent.appendChild(cardChe);
-    }
-
-    // REPLACE the existing renderRightForSelection(...) function with this:
-    function renderRightForSelection(selected) {
-      clearContainer(rightContent);
-      if (!selected) return;
-
-      // produce both variants (INX_..., CHE_...)
-      const { inx, che } = produceBothVariants(selected);
-
-      // BOTH frames on the RIGHT must use the CHE master IP
-      const inxUrl = `http://${CHE_MASTER_IP}/probe/core/mdiChannelDoc?Channelname=${encodeURIComponent(inx)}&?&detached=1`; // NOTE: uses CHE IP
-      const cheUrl = buildCheUrl(che); // http://10.32.20.210/...?Channelname=CHE_...
-
-      // INX card (served from CHE IP)
-      const cardInx = document.createElement('div'); cardInx.className = 'iframe-card';
-      const titleInx = document.createElement('div'); titleInx.className = 'iframe-title'; titleInx.textContent = inx;
-      cardInx.appendChild(titleInx);
-      const iframeInx = document.createElement('iframe'); iframeInx.src = inxUrl;
-      cardInx.appendChild(iframeInx);
-      if (showUrls) { const u = document.createElement('div'); u.className = 'url-line'; u.textContent = inxUrl; cardInx.appendChild(u); }
-      rightContent.appendChild(cardInx);
-
-      // CHE card (served from CHE IP)
-      const cardChe = document.createElement('div'); cardChe.className = 'iframe-card';
-      const titleChe = document.createElement('div'); titleChe.className = 'iframe-title'; titleChe.textContent = che;
-      cardChe.appendChild(titleChe);
-      const iframeChe = document.createElement('iframe'); iframeChe.src = cheUrl;
-      cardChe.appendChild(iframeChe);
-      if (showUrls) { const u2 = document.createElement('div'); u2.className = 'url-line'; u2.textContent = cheUrl; cardChe.appendChild(u2); }
-      rightContent.appendChild(cardChe);
-    }
-
-    // ---------- search behavior: typing filters dropdown options; Enter selects first match ----------
-    function filterDropdownFromSearch(fullList, dropdownElement, searchValue) {
-      const q = (searchValue || '').toLowerCase();
-      dropdownElement.innerHTML = '';
-      dropdownElement.appendChild(buildOption('-- Select channel --', ''));
-      fullList.forEach(ch => {
-        if (ch.toLowerCase().includes(q)) dropdownElement.appendChild(buildOption(ch, ch));
-      });
-    }
-
-    // ---------- event wiring ----------
-    leftDropdown.addEventListener('change', (e) => {
-      const sel = e.target.value;
-      // render using sel (if empty, clear)
-      renderLeftForSelection(sel || '');
-    });
-    rightDropdown.addEventListener('change', (e) => {
-      const sel = e.target.value;
-      renderRightForSelection(sel || '');
-    });
-
-    // search filter + Enter handling for left
-    leftSearch.addEventListener('input', (e) => {
-      filterDropdownFromSearch(leftList, leftDropdown, e.target.value);
-    });
-    leftSearch.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        const q = e.target.value.trim().toLowerCase();
-        if (!q) return;
-        const match = leftList.find(ch => ch.toLowerCase().includes(q));
-        if (match) {
-          leftDropdown.value = match;
-          renderLeftForSelection(match);
-        } else {
-          // no match - do nothing / show empty
-          leftDropdown.value = '';
-          clearContainer(leftContent);
+        // ---------- master URL templates ----------
+        const INX_MASTER_IP = '10.30.20.210';
+        const CHE_MASTER_IP = '10.32.20.210';
+        function buildInxUrl(channelName) {
+            return `http://${INX_MASTER_IP}/probe/core/mdiChannelDoc?Channelname=${encodeURIComponent(channelName)}&?&detached=1`;
         }
-      }
-    });
-
-    // search filter + Enter handling for right
-    rightSearch.addEventListener('input', (e) => {
-      filterDropdownFromSearch(rightList, rightDropdown, e.target.value);
-    });
-    rightSearch.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        const q = e.target.value.trim().toLowerCase();
-        if (!q) return;
-        const match = rightList.find(ch => ch.toLowerCase().includes(q));
-        if (match) {
-          rightDropdown.value = match;
-          renderRightForSelection(match);
-        } else {
-          rightDropdown.value = '';
-          clearContainer(rightContent);
+        function buildCheUrl(channelName) {
+            return `http://${CHE_MASTER_IP}/probe/core/mdiChannelDoc?Channelname=${encodeURIComponent(channelName)}&?&detached=1`;
         }
-      }
-    });
 
-    // Show URLs toggle
-    btnToggleUrls.addEventListener('click', () => {
-      showUrls = !showUrls;
-      btnToggleUrls.textContent = 'Show URLs: ' + (showUrls ? 'ON' : 'OFF');
-      // re-render current selections
-      renderLeftForSelection(leftDropdown.value || '');
-      renderRightForSelection(rightDropdown.value || '');
-    });
+        // ---------- utility ----------
+        function uniqueArray(arr) {
+            return Array.from(new Set(arr));
+        }
+        function buildOption(text, value) {
+            const o = document.createElement('option');
+            o.value = value;
+            o.textContent = text;
+            return o;
+        }
 
-    // Theme toggle
-    btnToggleTheme.addEventListener('click', () => {
-      lightMode = !lightMode;
-      document.body.classList.toggle('dark', !lightMode);
-      btnToggleTheme.textContent = lightMode ? 'Dark Mode' : 'Light Mode';
-    });
+        // returns remainder after first underscore: for "CHE_XYZ_CH01-F1" => "XYZ_CH01-F1"
+        function remainderAfterPrefix(name) {
+            if (!name) return '';
+            const idx = name.indexOf('_');
+            if (idx === -1) return name; // no underscore
+            return name.substring(idx + 1);
+        }
 
-    // ---------- init ----------
-    (function init() {
-      setupLists();
-      // initial state: nothing displayed until user selects or presses Enter in search
-      clearContainer(leftContent);
-      clearContainer(rightContent);
-    })();
-  </script>
+        // produce both variants (INX_ + remainder, CHE_ + remainder)
+        function produceBothVariants(selected) {
+            const rem = remainderAfterPrefix(selected);
+            const inx = 'INX_' + rem;
+            const che = 'CHE_' + rem;
+            return { inx, che };
+        }
+
+        // ---------- application state ----------
+        let leftList = [];   // unique list shown in left dropdown
+        let rightList = [];  // unique list for right dropdown
+        let showUrls = false;
+        let lightMode = false;
+
+        // ---------- DOM references ----------
+        const leftDropdown = document.getElementById('leftDropdown');
+        const rightDropdown = document.getElementById('rightDropdown');
+        const leftSearch = document.getElementById('leftSearch');
+        const rightSearch = document.getElementById('rightSearch');
+        const leftContent = document.getElementById('leftContent');
+        const rightContent = document.getElementById('rightContent');
+        const btnToggleUrls = document.getElementById('btnToggleUrls');
+        const btnToggleTheme = document.getElementById('btnToggleTheme');
+
+        // ---------- setup lists (dedupe) ----------
+        function setupLists() {
+            // Left: only INX_* channels
+            leftList = uniqueArray(
+                INX_PROBE_LIST.filter(ch => ch.startsWith("INX_"))
+            );
+
+            // Right: only CHE_* channels
+            rightList = uniqueArray(
+                CHE_PROBE_LIST.filter(ch => ch.startsWith("CHE_"))
+            );
+
+            populateDropdowns();
+        }
+
+
+        // ---------- populate dropdowns ----------
+        function populateDropdowns() {
+            leftDropdown.innerHTML = '';
+            leftDropdown.appendChild(buildOption('-- Select channel --', ''));
+            leftList.forEach(ch => leftDropdown.appendChild(buildOption(ch, ch)));
+
+            rightDropdown.innerHTML = '';
+            rightDropdown.appendChild(buildOption('-- Select channel --', ''));
+            rightList.forEach(ch => rightDropdown.appendChild(buildOption(ch, ch)));
+        }
+
+        // ---------- render functions ----------
+        function clearContainer(container) { container.innerHTML = ''; }
+
+        // REPLACE the existing renderLeftForSelection(...) function with this:
+        function renderLeftForSelection(selected) {
+            clearContainer(leftContent);
+            if (!selected) return; // show nothing until user selects
+
+            // produce both variants (INX_..., CHE_...)
+            const { inx, che } = produceBothVariants(selected);
+
+            // BOTH frames on the LEFT must use the INX master IP
+            const inxUrl = buildInxUrl(inx);                 // http://10.30.20.210/...?Channelname=INX_...
+            const cheUrl = `http://${INX_MASTER_IP}/probe/core/mdiChannelDoc?Channelname=${encodeURIComponent(che)}&?&detached=1`; // NOTE: uses INX IP
+
+            // INX card
+            const cardInx = document.createElement('div'); cardInx.className = 'iframe-card';
+            const titleInx = document.createElement('div'); titleInx.className = 'iframe-title'; titleInx.textContent = inx;
+            cardInx.appendChild(titleInx);
+            const iframeInx = document.createElement('iframe'); iframeInx.src = inxUrl;
+            cardInx.appendChild(iframeInx);
+            if (showUrls) {
+                const u = document.createElement('div'); u.className = 'url-line'; u.textContent = inxUrl;
+                cardInx.appendChild(u);
+            }
+            leftContent.appendChild(cardInx);
+
+            // CHE card (served from INX IP)
+            const cardChe = document.createElement('div'); cardChe.className = 'iframe-card';
+            const titleChe = document.createElement('div'); titleChe.className = 'iframe-title'; titleChe.textContent = che;
+            cardChe.appendChild(titleChe);
+            const iframeChe = document.createElement('iframe'); iframeChe.src = cheUrl;
+            cardChe.appendChild(iframeChe);
+            if (showUrls) {
+                const u2 = document.createElement('div'); u2.className = 'url-line'; u2.textContent = cheUrl;
+                cardChe.appendChild(u2);
+            }
+            leftContent.appendChild(cardChe);
+        }
+
+        // REPLACE the existing renderRightForSelection(...) function with this:
+        function renderRightForSelection(selected) {
+            clearContainer(rightContent);
+            if (!selected) return;
+
+            // produce both variants (INX_..., CHE_...)
+            const { inx, che } = produceBothVariants(selected);
+
+            // BOTH frames on the RIGHT must use the CHE master IP
+            const inxUrl = `http://${CHE_MASTER_IP}/probe/core/mdiChannelDoc?Channelname=${encodeURIComponent(inx)}&?&detached=1`; // NOTE: uses CHE IP
+            const cheUrl = buildCheUrl(che); // http://10.32.20.210/...?Channelname=CHE_...
+
+            // INX card (served from CHE IP)
+            const cardInx = document.createElement('div'); cardInx.className = 'iframe-card';
+            const titleInx = document.createElement('div'); titleInx.className = 'iframe-title'; titleInx.textContent = inx;
+            cardInx.appendChild(titleInx);
+            const iframeInx = document.createElement('iframe'); iframeInx.src = inxUrl;
+            cardInx.appendChild(iframeInx);
+            if (showUrls) { const u = document.createElement('div'); u.className = 'url-line'; u.textContent = inxUrl; cardInx.appendChild(u); }
+            rightContent.appendChild(cardInx);
+
+            // CHE card (served from CHE IP)
+            const cardChe = document.createElement('div'); cardChe.className = 'iframe-card';
+            const titleChe = document.createElement('div'); titleChe.className = 'iframe-title'; titleChe.textContent = che;
+            cardChe.appendChild(titleChe);
+            const iframeChe = document.createElement('iframe'); iframeChe.src = cheUrl;
+            cardChe.appendChild(iframeChe);
+            if (showUrls) { const u2 = document.createElement('div'); u2.className = 'url-line'; u2.textContent = cheUrl; cardChe.appendChild(u2); }
+            rightContent.appendChild(cardChe);
+        }
+
+        // ---------- search behavior: typing filters dropdown options; Enter selects first match ----------
+        function filterDropdownFromSearch(fullList, dropdownElement, searchValue) {
+            const q = (searchValue || '').toLowerCase();
+            dropdownElement.innerHTML = '';
+            dropdownElement.appendChild(buildOption('-- Select channel --', ''));
+            fullList.forEach(ch => {
+                if (ch.toLowerCase().includes(q)) dropdownElement.appendChild(buildOption(ch, ch));
+            });
+        }
+
+        // ---------- event wiring ----------
+        leftDropdown.addEventListener('change', (e) => {
+            const sel = e.target.value;
+            // render using sel (if empty, clear)
+            renderLeftForSelection(sel || '');
+        });
+        rightDropdown.addEventListener('change', (e) => {
+            const sel = e.target.value;
+            renderRightForSelection(sel || '');
+        });
+
+        // search filter + Enter handling for left
+        leftSearch.addEventListener('input', (e) => {
+            filterDropdownFromSearch(leftList, leftDropdown, e.target.value);
+        });
+        leftSearch.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const q = e.target.value.trim().toLowerCase();
+                if (!q) return;
+                const match = leftList.find(ch => ch.toLowerCase().includes(q));
+                if (match) {
+                    leftDropdown.value = match;
+                    renderLeftForSelection(match);
+                } else {
+                    // no match - do nothing / show empty
+                    leftDropdown.value = '';
+                    clearContainer(leftContent);
+                }
+            }
+        });
+
+        // search filter + Enter handling for right
+        rightSearch.addEventListener('input', (e) => {
+            filterDropdownFromSearch(rightList, rightDropdown, e.target.value);
+        });
+        rightSearch.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const q = e.target.value.trim().toLowerCase();
+                if (!q) return;
+                const match = rightList.find(ch => ch.toLowerCase().includes(q));
+                if (match) {
+                    rightDropdown.value = match;
+                    renderRightForSelection(match);
+                } else {
+                    rightDropdown.value = '';
+                    clearContainer(rightContent);
+                }
+            }
+        });
+
+        // Show URLs toggle
+        btnToggleUrls.addEventListener('click', () => {
+            showUrls = !showUrls;
+            btnToggleUrls.textContent = 'Show URLs: ' + (showUrls ? 'ON' : 'OFF');
+            // re-render current selections
+            renderLeftForSelection(leftDropdown.value || '');
+            renderRightForSelection(rightDropdown.value || '');
+        });
+
+        // Theme toggle
+        btnToggleTheme.addEventListener('click', () => {
+            lightMode = !lightMode;
+            document.body.classList.toggle('dark', !lightMode);
+            btnToggleTheme.textContent = lightMode ? 'Dark Mode' : 'Light Mode';
+        });
+
+        // ---------- init ----------
+        (function init() {
+            setupLists();
+            // initial state: nothing displayed until user selects or presses Enter in search
+            clearContainer(leftContent);
+            clearContainer(rightContent);
+        })();
+
+        /* Blocked the Right click option to inspect the source code as a security concern of code copyright.
+        Below is exact code added newly at last part of code: */
+
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 'i' || e.key === 'I' || e.key === 'j' || e.key === 'J')) {
+                e.preventDefault();
+            }
+            if (e.keyCode === 123) { // F12 key
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 
 </html>
